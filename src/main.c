@@ -127,7 +127,7 @@ int
 main(int argc, char *argv[]){
 
 	struct school sch_info;
-	PNODE pHead;
+	PNODE pHead = NULL;
 	//if(argc != 4){
 	//	fprintf(stderr, "argc: %s school_name teacher_name student_name\n", argv[0]);
 	//	exit(1);
@@ -182,7 +182,7 @@ main(int argc, char *argv[]){
 		while(getchar() != '\n');
 		printf("Please Enter to display cmd menu...\n");
 		while(getchar() != '\n');
-		usage_start(argv[0]);
+		//usage_start(argv[0]);
 	}
 
 /*

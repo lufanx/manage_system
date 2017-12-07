@@ -46,16 +46,15 @@ list_add_info(struct school *info){
 		MALLOC_INFO("pNew");
 		exit(1);
 	}
-	snprintf(pNew->info.school_name, sizeof(BUFFER), "%s", info->school_name);
+	snprintf(pNew->info.school_name, sizeof(pNew->info.school_name), "%s", info->school_name);
 	pNew->info.tea = &tea;
-	snprintf(pNew->info.tea->teacher_name, sizeof(BUFFER), "%s", info->tea->teacher_name);
-	printf("-------------\n");
+	snprintf(pNew->info.tea->teacher_name, sizeof(pNew->info.tea->teacher_name), "%s", info->tea->teacher_name);
 	pNew->info.tea->age = info->tea->age;
-	snprintf(pNew->info.tea->sex, sizeof(BUFFER), "%s", info->tea->sex);
+	snprintf(pNew->info.tea->sex, sizeof(pNew->info.tea->sex), "%s", info->tea->sex);
 	pNew->info.stu = &stu;
-	snprintf(pNew->info.stu->student_name, sizeof(BUFFER), "%s", info->stu->student_name);
+	snprintf(pNew->info.stu->student_name, sizeof(pNew->info.stu->student_name), "%s", info->stu->student_name);
 	pNew->info.stu->age = info->stu->age;
-	snprintf(pNew->info.stu->sex, sizeof(BUFFER), "%s", info->stu->sex);
+	snprintf(pNew->info.stu->sex, sizeof(pNew->info.stu->sex), "%s", info->stu->sex);
 
 	pTail->pNext = pNew;
 	pNew->pNext = NULL;
