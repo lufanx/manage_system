@@ -1,0 +1,10 @@
+#This about system info data of mysql config file.
+
+#system info mysql of database.
+database=person_bank
+
+#system info mysql of operation table.
+table=person_info
+
+#system info register table.
+user_register=user_register
