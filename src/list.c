@@ -3,6 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+PNODE pHead = NULL;
+PNODE pTail;
+/* point until point creat new node */
+PNODE point;
+
 void
 display_info(struct school *sch_info){
 
@@ -22,30 +27,36 @@ display_info(struct school *sch_info){
 }
 
 PNODE
-list_add_info(struct school *info){
+list_add_info(struct school *info, int register_flag){
 
 	struct teacher tea;
 	struct student stu;
-	printf("%s\n", __FUNCTION__);
+	//PNODE pHead;
+	PNODE pTail;
+
 	if(!info){
 		return NULL;
 	}
 
-	PNODE pHead;
-	PNODE pTail;
-
-	pHead = (PNODE)malloc(sizeof(NODE));
-	if(pHead == NULL){
-		MALLOC_INFO("pHead");
-		exit(1);	
+	/* Head node only create once when register_flag == 1 */
+	if (register_flag) {
+		pHead = (PNODE)malloc(sizeof(NODE));
+		if(pHead == NULL){
+			MALLOC_INFO("pHead");
+			exit(1);	
+		}
 	}
+
 	pTail = pHead;
 	PNODE pNew;
+	/* Create every data node */
 	pNew = (PNODE)malloc(sizeof(NODE));
-	if(pNew == NULL){
+	if (pNew == NULL) {
 		MALLOC_INFO("pNew");
 		exit(1);
 	}
+
+	/*
 	snprintf(pNew->info.school_name, sizeof(pNew->info.school_name), "%s", info->school_name);
 	pNew->info.tea = &tea;
 	snprintf(pNew->info.tea->teacher_name, sizeof(pNew->info.tea->teacher_name), "%s", info->tea->teacher_name);
@@ -55,10 +66,37 @@ list_add_info(struct school *info){
 	snprintf(pNew->info.stu->student_name, sizeof(pNew->info.stu->student_name), "%s", info->stu->student_name);
 	pNew->info.stu->age = info->stu->age;
 	snprintf(pNew->info.stu->sex, sizeof(pNew->info.stu->sex), "%s", info->stu->sex);
+	*/
 
-	pTail->pNext = pNew;
-	pNew->pNext = NULL;
-	pTail = pNew;
+	printf("Please input school name:\n");
+	scanf("%s", pNew->info.school_name);
+	pNew->info.tea = &tea;
+	printf("Please input teacher name:\n");
+	scanf("%s", pNew->info.tea->teacher_name);
+	printf("Please input teacher age:\n");
+	scanf("%d", &pNew->info.tea->age);
+	printf("Please input teacher sex:\n");
+	scanf("%s", pNew->info.tea->sex);
+	pNew->info.stu = &stu;
+	printf("Please input stdent name:\n");
+	scanf("%s", pNew->info.stu->student_name);
+	printf("Please input student age:\n");
+	scanf("%d", &pNew->info.stu->age);
+	printf("Please input sstudent sex:\n");
+	scanf("%s", pNew->info.stu->sex);
+
+	/* if is first node, pNew->pNext = NULL */
+	if (register_flag) {
+		pTail->pNext = pNew;
+		pNew->pNext = NULL;
+		point = pNew;
+	}
+	/* every new node point next node */
+	else{
+		pTail->pNext = pNew;
+		pNew->pNext = point;
+		point = pNew;
+	}
 
 	return pHead;
 }

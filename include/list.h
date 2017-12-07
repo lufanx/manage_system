@@ -4,7 +4,11 @@
 #include "info_struct.h"
 
 typedef struct Node{
+
+	/* school && teacher && student info */
 	struct school info;
+
+	/* pNext until point next node */
 	struct Node *pNext;
 }NODE, *PNODE;
 
@@ -16,7 +20,7 @@ void display_info(struct school *sch_info);
 /*
  *add about school info.
  */
-PNODE list_add_info(struct school *info);
+PNODE list_add_info(struct school *info, int register_total);
 
 /*
  *delete about school info.

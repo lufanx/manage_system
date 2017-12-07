@@ -65,6 +65,7 @@ data_init(struct school *sch_info){
 	}
 }
 
+/*
 static void
 usage(const char *app_name){
 	printf("%s: options\n", app_name);
@@ -76,6 +77,7 @@ usage(const char *app_name){
 	printf("\te: student age\n");
 	printf("\tx: student sex\n");
 }
+*/
 
 static void
 usage_start(char *app_name){
@@ -90,6 +92,7 @@ usage_start(char *app_name){
 	return;
 }
 
+/*
 static void
 parse_args(int argc, char **argv, struct school *get_school_info){
 	int op;
@@ -122,12 +125,14 @@ parse_args(int argc, char **argv, struct school *get_school_info){
 		}
 	}
 }
+*/
 
 int
 main(int argc, char *argv[]){
 
 	struct school sch_info;
 	PNODE pHead = NULL;
+	int		register_flag = 1;   
 	//if(argc != 4){
 	//	fprintf(stderr, "argc: %s school_name teacher_name student_name\n", argv[0]);
 	//	exit(1);
@@ -151,8 +156,9 @@ main(int argc, char *argv[]){
 				display_info(&sch_info);
 				break;
 		case 2:
-				parse_args(argc, argv, &sch_info);
-				pHead = list_add_info(&sch_info);
+				//parse_args(argc, argv, &sch_info);
+				pHead = list_add_info(&sch_info, register_flag);
+				register_flag = 0;
 				break;
 		case 3:
 				list_delete_info();

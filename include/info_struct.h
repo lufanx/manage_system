@@ -23,5 +23,4 @@ struct school{
 	struct student *stu;
 };
 
-
 #endif
