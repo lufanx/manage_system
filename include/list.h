@@ -42,4 +42,4 @@ void list_trave_info(PNODE);
  */
 void clear_up();
 
-#endif
+#endif /* __LIST_H__ */

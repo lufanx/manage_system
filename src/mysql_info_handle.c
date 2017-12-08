@@ -1,10 +1,3 @@
-//
-//  mysql_info_handle.c
-//
-//  Created by 凡路 on 2017/8/27.
-//  Copyright © 2017年 凡路. All rights reserved.
-//
-
 #include "mysql_info.h"
 #include "info_struct.h"
 #include "list.h"

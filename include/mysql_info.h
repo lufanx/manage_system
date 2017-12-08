@@ -4,7 +4,6 @@
 #define CONFIG 100
 
 #include "/usr/local/Cellar/mysql/5.7.19/include/mysql/mysql.h"
-//#include "mysql.h"
 
 struct mysql_config {
 	char database[CONFIG];
@@ -21,4 +20,4 @@ char *return_id(struct mysql_config *return_id);
 void alter_table(struct mysql_config *alter, char *queue_name, char *queue_type);
 //void mysql_operate(User *user_info);
 
-#endif /* person_mysql_h */
+#endif /* __MYSQL_h__ */

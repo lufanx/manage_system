@@ -23,4 +23,4 @@ struct school {
 	struct student *stu;
 };
 
-#endif
+#endif /* __INFO_H__ */
