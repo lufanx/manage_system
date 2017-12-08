@@ -9,9 +9,10 @@ PNODE pTail;
 PNODE point;
 
 void
-display_info(struct school *sch_info){
+display_info(struct school *sch_info)
+{
 
-	if(!sch_info){
+	if (!sch_info) {
 		return;
 	}
 
@@ -27,23 +28,24 @@ display_info(struct school *sch_info){
 }
 
 PNODE
-list_add_info(struct school *info, int register_flag){
+list_add_info(struct school *info, int register_flag)
+{
 
 	struct teacher tea;
 	struct student stu;
 	//PNODE pHead;
 	PNODE pTail;
 
-	if(!info){
+	if (!info) {
 		return NULL;
 	}
 
 	/* Head node only create once when register_flag == 1 */
 	if (register_flag) {
 		pHead = (PNODE)malloc(sizeof(NODE));
-		if(pHead == NULL){
+		if (pHead == NULL) {
 			MALLOC_INFO("pHead");
-			exit(1);	
+			exit(1);
 		}
 	}
 
@@ -92,7 +94,7 @@ list_add_info(struct school *info, int register_flag){
 		point = pNew;
 	}
 	/* every new node point next node */
-	else{
+	else {
 		pTail->pNext = pNew;
 		pNew->pNext = point;
 		point = pNew;
@@ -102,21 +104,24 @@ list_add_info(struct school *info, int register_flag){
 }
 
 void
-list_delete_info(){
+list_delete_info()
+{
 
 }
 
 void
-list_update_info(){
+list_update_info()
+{
 
 }
 
 void
-list_trave_info(PNODE pHead){
-	
+list_trave_info(PNODE pHead)
+{
+
 	PNODE p;
 	p = pHead;
-	while(p->pNext != NULL){
+	while (p->pNext != NULL) {
 		printf("school name: %10s\n", p->pNext->info.school_name);
 		printf("teacher name: %10s\n", p->pNext->info.tea->teacher_name);
 		printf("teacher age: %10d\n", p->pNext->info.tea->age);
@@ -125,7 +130,7 @@ list_trave_info(PNODE pHead){
 		printf("student age: %10d\n", p->pNext->info.stu->age);
 		printf("student sex: %10s\n", p->pNext->info.stu->sex);
 		p = p->pNext;
-	
+
 	}
 
 }

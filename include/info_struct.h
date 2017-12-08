@@ -5,19 +5,19 @@
 #define SNPRINTF_INFO(info_name)	fprintf(stderr, "%s snprintf failed\n", info_name)
 #define MALLOC_INFO(info_name)	fprintf(stderr, "%s malloc failed\n", info_name)
 
-struct student{
+struct student {
 	char student_name[BUFFER];
 	int age;
 	char sex[BUFFER];
 };
 
-struct teacher{
+struct teacher {
 	char teacher_name[BUFFER];
 	int age;
 	char sex[BUFFER];
 };
 
-struct school{
+struct school {
 	char school_name[BUFFER];
 	struct teacher *tea;
 	struct student *stu;

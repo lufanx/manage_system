@@ -15,51 +15,52 @@ int const student_age = 18;
 char *student_sex = "f";
 
 static void
-data_init(struct school *sch_info){
+data_init(struct school *sch_info)
+{
 	int strlen = 0;
-	if(!sch_info){
+	if (!sch_info) {
 		return;
 	}
 
 	memset(sch_info, 0, sizeof(*sch_info));
 	strlen = snprintf(sch_info->school_name, sizeof(sch_info->school_name), "shanghai_xueyuan");
-	if(strlen < 0){
+	if (strlen < 0) {
 		SNPRINTF_INFO("sch_info->school_name");
 		exit(1);
 	}
 	sch_info->tea = (struct teacher *)malloc(sizeof(struct teacher));
-	if(sch_info == NULL){
+	if (sch_info == NULL) {
 		MALLOC_INFO("sch_info->tea");
 		exit(1);
 	}
 	sch_info->stu = (struct student *)malloc(sizeof(struct student));
-	if(sch_info->stu == NULL){
+	if (sch_info->stu == NULL) {
 		MALLOC_INFO("sch_info->stu");
 		exit(1);
 	}
 	strlen = 0;
 	strlen = snprintf(sch_info->tea->teacher_name, sizeof(sch_info->tea->teacher_name), "lisi");
-	if(strlen < 0){
+	if (strlen < 0) {
 		SNPRINTF_INFO("sch_info->tea->teacher_name");
 		exit(1);
 	}
 	sch_info->tea->age = teacher_age;
 	strlen = 0;
 	strlen = snprintf(sch_info->tea->sex, sizeof(sch_info->tea->sex), "%s", teacher_sex);
-	if(strlen < 0){
+	if (strlen < 0) {
 		SNPRINTF_INFO("sch_info->tea->sex");
 		exit(1);
 	}
 	strlen = 0;
 	strlen = snprintf(sch_info->stu->student_name, sizeof(sch_info->stu->student_name), "zhangsan");
-	if(strlen < 0){
+	if (strlen < 0) {
 		SNPRINTF_INFO("sch_info->stu->student_name");
 		exit(1);
 	}
 	sch_info->stu->age = student_age;
 	strlen = 0;
 	strlen = snprintf(sch_info->stu->sex, sizeof(sch_info->stu->sex), "%s", student_sex);
-	if(strlen < 0){
+	if (strlen < 0) {
 		SNPRINTF_INFO("sch_info->stu->sex");
 		exit(1);
 	}
@@ -80,7 +81,8 @@ usage(const char *app_name){
 */
 
 static void
-usage_start(char *app_name){
+usage_start(char *app_name)
+{
 	printf("%s: options\n", app_name);
 	printf("\t1: display_info\n");
 	printf("\t2: add_info\n");
@@ -128,80 +130,81 @@ parse_args(int argc, char **argv, struct school *get_school_info){
 */
 
 int
-main(int argc, char *argv[]){
+main(int argc, char *argv[])
+{
 
 	struct school sch_info;
 	PNODE pHead = NULL;
-	int		register_flag = 1;   
+	int		register_flag = 1;
 	//if(argc != 4){
 	//	fprintf(stderr, "argc: %s school_name teacher_name student_name\n", argv[0]);
 	//	exit(1);
 	//}
 	data_init(&sch_info);
 
-	while(1){
+	while (1) {
 		int cmd;
 		int exit_flag = 0;
 
 		usage_start(argv[0]);
 		printf("Please input options: ");
-		if(!scanf("%d", &cmd)){
+		if (!scanf("%d", &cmd)) {
 			printf("inval command: command be must number 1-5\n");
-			while(getchar()!= '\n');
+			while (getchar() != '\n');
 			usage_start(argv[0]);
 			continue;
 		}
-		switch(cmd){
+		switch (cmd) {
 		case 1:
-				display_info(&sch_info);
-				break;
+			display_info(&sch_info);
+			break;
 		case 2:
-				//parse_args(argc, argv, &sch_info);
-				pHead = list_add_info(&sch_info, register_flag);
-				register_flag = 0;
-				break;
+			//parse_args(argc, argv, &sch_info);
+			pHead = list_add_info(&sch_info, register_flag);
+			register_flag = 0;
+			break;
 		case 3:
-				list_delete_info();
-				break;
+			list_delete_info();
+			break;
 		case 4:
-				list_update_info();
-				break;
+			list_update_info();
+			break;
 		case 5:
-				if(!pHead){
-					fprintf(stderr, "info is empty\n");
-					break;
-				}
-				list_trave_info(pHead);
+			if (!pHead) {
+				fprintf(stderr, "info is empty\n");
 				break;
+			}
+			list_trave_info(pHead);
+			break;
 		case 6:
-				//clear_up();
-				exit_flag = 1;
-				break;
+			//clear_up();
+			exit_flag = 1;
+			break;
 		default:
-				fprintf(stderr, "%d input error!\n", cmd);
-				break;	
-		}
-
-		if(exit_flag){
+			fprintf(stderr, "%d input error!\n", cmd);
 			break;
 		}
-		while(getchar() != '\n');
+
+		if (exit_flag) {
+			break;
+		}
+		while (getchar() != '\n');
 		printf("Please Enter to display cmd menu...\n");
-		while(getchar() != '\n');
+		while (getchar() != '\n');
 		//usage_start(argv[0]);
 	}
 
-/*
-	parse_args(argc, argv, &sch_info);
+	/*
+		parse_args(argc, argv, &sch_info);
 
-	printf("school_name: %s\n", sch_info.school_name);
-	printf("tea_name: %s\n", sch_info.tea->teacher_name);
-	printf("tea_age: %d\n", sch_info.tea->age);
-	printf("tea_sex: %s\n", sch_info.tea->sex);
-	printf("stu_name: %s\n", sch_info.stu->student_name);
-	printf("stu_age: %d\n", sch_info.stu->age);
-	printf("stu_sex: %s\n", sch_info.stu->sex);
-*/
+		printf("school_name: %s\n", sch_info.school_name);
+		printf("tea_name: %s\n", sch_info.tea->teacher_name);
+		printf("tea_age: %d\n", sch_info.tea->age);
+		printf("tea_sex: %s\n", sch_info.tea->sex);
+		printf("stu_name: %s\n", sch_info.stu->student_name);
+		printf("stu_age: %d\n", sch_info.stu->age);
+		printf("stu_sex: %s\n", sch_info.stu->sex);
+	*/
 
 	free(sch_info.tea);
 	free(sch_info.stu);

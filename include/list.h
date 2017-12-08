@@ -3,14 +3,14 @@
 
 #include "info_struct.h"
 
-typedef struct Node{
+typedef struct Node {
 
 	/* school && teacher && student info */
 	struct school info;
 
 	/* pNext until point next node */
 	struct Node *pNext;
-}NODE, *PNODE;
+} NODE, *PNODE;
 
 /*
  *display about school info.
