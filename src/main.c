@@ -10,24 +10,19 @@
  * default student_age student_sex
  */
 int const teacher_age = 20;
-char *teacher_sex = "f";
+char teacher_sex = 'f';
 int const student_age = 18;
-char *student_sex = "f";
+char student_sex = 'f';
 
 static void
 data_init(struct school *sch_info)
 {
-	int strlen = 0;
 	if (!sch_info) {
 		return;
 	}
 
 	memset(sch_info, 0, sizeof(*sch_info));
-	strlen = snprintf(sch_info->school_name, sizeof(sch_info->school_name), "shanghai_xueyuan");
-	if (strlen < 0) {
-		SNPRINTF_INFO("sch_info->school_name");
-		exit(1);
-	}
+	snprintf(sch_info->school_name, sizeof(sch_info->school_name), "ShangHai_XueYuan");
 	sch_info->tea = (struct teacher *)malloc(sizeof(struct teacher));
 	if (sch_info == NULL) {
 		MALLOC_INFO("sch_info->tea");
@@ -38,32 +33,12 @@ data_init(struct school *sch_info)
 		MALLOC_INFO("sch_info->stu");
 		exit(1);
 	}
-	strlen = 0;
-	strlen = snprintf(sch_info->tea->teacher_name, sizeof(sch_info->tea->teacher_name), "lisi");
-	if (strlen < 0) {
-		SNPRINTF_INFO("sch_info->tea->teacher_name");
-		exit(1);
-	}
+	snprintf(sch_info->tea->teacher_name, sizeof(sch_info->tea->teacher_name), "LiSi");
 	sch_info->tea->age = teacher_age;
-	strlen = 0;
-	strlen = snprintf(sch_info->tea->sex, sizeof(sch_info->tea->sex), "%s", teacher_sex);
-	if (strlen < 0) {
-		SNPRINTF_INFO("sch_info->tea->sex");
-		exit(1);
-	}
-	strlen = 0;
-	strlen = snprintf(sch_info->stu->student_name, sizeof(sch_info->stu->student_name), "zhangsan");
-	if (strlen < 0) {
-		SNPRINTF_INFO("sch_info->stu->student_name");
-		exit(1);
-	}
+	sch_info->tea->sex = teacher_sex;
+	snprintf(sch_info->stu->student_name, sizeof(sch_info->stu->student_name), "ZhangSan");
 	sch_info->stu->age = student_age;
-	strlen = 0;
-	strlen = snprintf(sch_info->stu->sex, sizeof(sch_info->stu->sex), "%s", student_sex);
-	if (strlen < 0) {
-		SNPRINTF_INFO("sch_info->stu->sex");
-		exit(1);
-	}
+	sch_info->stu->sex = student_sex;
 }
 
 /*

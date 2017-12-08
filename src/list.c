@@ -19,10 +19,10 @@ display_info(struct school *sch_info)
 	printf("school_name: %s\n", sch_info->school_name);
 	printf("tea_name: %s\n", sch_info->tea->teacher_name);
 	printf("tea_age: %d\n", sch_info->tea->age);
-	printf("tea_sex: %s\n", sch_info->tea->sex);
+	printf("tea_sex: %c\n", sch_info->tea->sex);
 	printf("stu_name: %s\n", sch_info->stu->student_name);
 	printf("stu_age: %d\n", sch_info->stu->age);
-	printf("stu_sex: %s\n", sch_info->stu->sex);
+	printf("stu_sex: %c\n", sch_info->stu->sex);
 
 	return;
 }
@@ -30,9 +30,12 @@ display_info(struct school *sch_info)
 PNODE
 list_add_info(struct school *info, int register_flag)
 {
-
-	struct teacher tea;
-	struct student stu;
+/*
+	struct teacher tea = {0};
+	struct student stu = {0};
+	char teacher_sex = ' ';
+	char student_sex = ' ';
+*/
 	//PNODE pHead;
 	PNODE pTail;
 
@@ -70,22 +73,39 @@ list_add_info(struct school *info, int register_flag)
 	snprintf(pNew->info.stu->sex, sizeof(pNew->info.stu->sex), "%s", info->stu->sex);
 	*/
 
+	//pNew->info.tea->sex = &teacher_sex;
+	//pNew->info.stu->sex = &student_sex;
+
 	printf("Please input school name:\n");
 	scanf("%s", pNew->info.school_name);
-	pNew->info.tea = &tea;
+
+	pNew->info.tea = (struct teacher *)malloc(sizeof(struct teacher));
+	if (pNew->info.tea == NULL) {
+		MALLOC_INFO("Tea");
+		exit(1);
+	}
 	printf("Please input teacher name:\n");
 	scanf("%s", pNew->info.tea->teacher_name);
 	printf("Please input teacher age:\n");
 	scanf("%d", &pNew->info.tea->age);
 	printf("Please input teacher sex:\n");
-	scanf("%s", pNew->info.tea->sex);
-	pNew->info.stu = &stu;
+	scanf("%c", &pNew->info.tea->sex);
+	//pNew->info.tea->sex = getchar();
+	//pNew->info.tea->sex = fgetc(stdin);
+
+	pNew->info.stu = (struct student *)malloc(sizeof(struct student));
+	if (pNew->info.stu == NULL) {
+		MALLOC_INFO("Stu");
+		exit(1);
+	}
 	printf("Please input stdent name:\n");
 	scanf("%s", pNew->info.stu->student_name);
 	printf("Please input student age:\n");
 	scanf("%d", &pNew->info.stu->age);
-	printf("Please input sstudent sex:\n");
-	scanf("%s", pNew->info.stu->sex);
+	printf("Please input student sex:\n");
+	scanf("%c", &pNew->info.stu->sex);
+	//pNew->info.stu->sex = getchar();
+	//pNew->info.stu->sex = fgetc(stdin);
 
 	/* if is first node, pNew->pNext = NULL */
 	if (register_flag) {
@@ -125,10 +145,10 @@ list_trave_info(PNODE pHead)
 		printf("school name: %10s\n", p->pNext->info.school_name);
 		printf("teacher name: %10s\n", p->pNext->info.tea->teacher_name);
 		printf("teacher age: %10d\n", p->pNext->info.tea->age);
-		printf("teacher sex: %10s\n", p->pNext->info.tea->sex);
+		printf("teacher sex: %10c\n", p->pNext->info.tea->sex);
 		printf("student name: %10s\n", p->pNext->info.stu->student_name);
 		printf("student age: %10d\n", p->pNext->info.stu->age);
-		printf("student sex: %10s\n", p->pNext->info.stu->sex);
+		printf("student sex: %10c\n", p->pNext->info.stu->sex);
 		p = p->pNext;
 
 	}
