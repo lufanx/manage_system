@@ -89,6 +89,7 @@ list_add_info(struct school *info, int register_flag)
 	printf("Please input teacher age:\n");
 	scanf("%d", &pNew->info.tea->age);
 	printf("Please input teacher sex:\n");
+	getchar();
 	scanf("%c", &pNew->info.tea->sex);
 	//pNew->info.tea->sex = getchar();
 	//pNew->info.tea->sex = fgetc(stdin);
@@ -103,6 +104,7 @@ list_add_info(struct school *info, int register_flag)
 	printf("Please input student age:\n");
 	scanf("%d", &pNew->info.stu->age);
 	printf("Please input student sex:\n");
+	getchar();
 	scanf("%c", &pNew->info.stu->sex);
 	//pNew->info.stu->sex = getchar();
 	//pNew->info.stu->sex = fgetc(stdin);
