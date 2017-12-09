@@ -28,4 +28,10 @@ Linux:
 ~~~{.sh}
 make
 ~~~
+App:
+
+~~~{.sh}
+app/client
+app/server
+~~~
 
