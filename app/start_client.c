@@ -1,5 +1,5 @@
-#include "info_struct.h"
-#include "list.h"
+#include "client/info_struct.h"
+#include "client/list.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

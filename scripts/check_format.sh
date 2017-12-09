@@ -60,7 +60,7 @@ fi
 rm -f eofnl.log
 
 echo -n "Checking for POSIX includes..."
-git grep -I -i -f scripts/posix.txt -- './*' ':!include/info_struct.h' ':!include/list.h' ':!include/mysql_info.h' ':!scripts/posix.txt' > scripts/posix.log || true
+git grep -I -i -f scripts/posix.txt -- './*' ':!include/client/info_struct.h' ':!include/client/list.h' ':!include/mysql_info.h' ':!scripts/posix.txt' > scripts/posix.log || true
 if [ -s scripts/posix.log ]; then
 	echo "POSIX includes detected. Please include include/stdinc.h instead."
 	cat scripts/posix.log
