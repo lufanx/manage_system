@@ -1,3 +1,4 @@
+#include "server/handle_server_info.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,7 +9,7 @@
 #include <arpa/inet.h>
 #include <signal.h>
 
-static int sockfd;
+int sockfd;
 
 void
 sig_handle(int signo)
@@ -68,10 +69,13 @@ main(int argc, char *argv[])
 		exit(1);
 	}
  
+	out_server_info(sockfd);
 	while (1) {
 		printf("Server socket waitting accept client......\n");
 		fd = accept(sockfd, NULL, NULL);
+		//out_server_info(sockfd);
 		out_fd(fd);
+		read_client_data(fd);
 	}
 
 	return 0;

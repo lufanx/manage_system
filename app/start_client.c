@@ -1,5 +1,6 @@
 #include "client/info_struct.h"
 #include "client/list.h"
+#include "client/socket_client.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -116,6 +117,7 @@ main(int argc, char *argv[])
 	//	exit(1);
 	//}
 	data_init(&sch_info);
+	connect_server();
 
 	while (1) {
 		int cmd;
