@@ -3,6 +3,6 @@
 
 //void out_fd(int fd);
 void out_server_info(int sockfd);
-void read_client_data(int fd);
+int read_client_data(int fd);
 
 #endif /* __SERVER_HANDLE_H__ */

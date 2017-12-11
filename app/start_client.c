@@ -117,7 +117,7 @@ main(int argc, char *argv[])
 	//	exit(1);
 	//}
 	data_init(&sch_info);
-	connect_server();
+	connect_server(argc, argv);
 
 	while (1) {
 		int cmd;

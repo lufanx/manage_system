@@ -9,23 +9,29 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-void
+int
 read_client_data(int fd)
 {
 	char buffer[SOCKET_DATA_BUFFER];
 	int size;
 	memset(buffer, 0, SOCKET_DATA_BUFFER);
-	while ((size = read(fd, buffer, SOCKET_DATA_BUFFER)) > 0) {
+
+	size = read(fd, buffer, SOCKET_DATA_BUFFER);
+	if (size > 0) {
 		printf("Client data buffer: %s\n", buffer);
 	}
+	//while ((size = read(fd, buffer, SOCKET_DATA_BUFFER)) > 0) {
+	//	printf("Client data buffer: %s\n", buffer);
+	//}
 
 	if (size == 0) {
 		printf("Client readly disconnect\n");
-		return;
+		return 1;
 	}else if (size < 0) {
 		printf("Server read client data failed\n");
-		return;
+		return -1;
 	}
+	return 0;
 	//printf("Client data buffer: %s\n", buffer);
 }
 

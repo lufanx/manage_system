@@ -33,12 +33,12 @@ write_buf_sockfd(int sockfd)
 }
 
 void
-connect_server()
+connect_server(int argc, char *argv[])
 {
 	int sockfd;
 	struct sockaddr_in clientaddr;
-	int client_port;
-	char client_ip[IP_BUFFER];
+	//int client_port;
+	//char client_ip[IP_BUFFER];
 	
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (sockfd < 0) {
@@ -46,14 +46,14 @@ connect_server()
 		return;
 	}
 	memset(&clientaddr, 0, sizeof(clientaddr));
-	memset(client_ip, 0, IP_BUFFER);
+	//memset(client_ip, 0, IP_BUFFER);
 	clientaddr.sin_family = AF_INET;
-	printf("Please input connect ip: ");
-	scanf("%s", client_ip);
-	printf("Please input connect port: ");
-	scanf("%d", &client_port);
-	clientaddr.sin_port = htons(client_port);
-	inet_pton(AF_INET, client_ip, &clientaddr.sin_addr.s_addr);
+	//printf("Please input connect ip: ");
+	//scanf("%s", client_ip);
+	//printf("Please input connect port: ");
+	//scanf("%d", &client_port);
+	clientaddr.sin_port = htons(atoi(argv[2]));
+	inet_pton(AF_INET, argv[1], &clientaddr.sin_addr.s_addr);
 	
 	if (connect(sockfd, (struct sockaddr *)&clientaddr, sizeof(clientaddr)) < 0) {
 		fprintf(stderr, "Client connect failed\n");

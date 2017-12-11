@@ -8,7 +8,11 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <signal.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <sys/select.h>
 
+#define BACKLOG	10
 int sockfd;
 
 void
@@ -33,6 +37,13 @@ main(int argc, char *argv[])
 {
 	struct sockaddr_in serveraddr;
 	int fd;
+	int max_fd;
+	struct timeval timeout;
+	fd_set readfds;
+	int fd_num;
+	int conn_amount = 0;
+	int fd_A[BACKLOG] = {0};
+	int i;
 
 	/* argv[1] is socket port */
 	if (argc < 2) {
@@ -68,14 +79,49 @@ main(int argc, char *argv[])
 		fprintf(stderr, "Listen failed\n");
 		exit(1);
 	}
- 
+	
+	FD_ZERO(&readfds);
+	max_fd = sockfd;
 	out_server_info(sockfd);
 	while (1) {
-		printf("Server socket waitting accept client......\n");
-		fd = accept(sockfd, NULL, NULL);
-		//out_server_info(sockfd);
-		out_fd(fd);
-		read_client_data(fd);
+		printf("conn_amount: %d\n", conn_amount);
+		FD_ZERO(&readfds);
+		FD_SET(sockfd, &readfds);
+		timeout.tv_sec = 20;
+		timeout.tv_usec = 5000;
+		for (i = 0; i < BACKLOG; i++) {
+			if (fd_A[i] != 0) {
+				FD_SET(fd_A[i], &readfds);
+			}
+		}
+		if ((fd_num = select(max_fd+1, &readfds, NULL, NULL, &timeout)) < 0) {
+			fprintf(stderr, "Select called failed\n");
+			break;
+		} 
+		if (fd_num == 0) {
+			printf("Select check timeout...\n");
+			continue;
+		}
+		printf("=================\n");
+		for (i = 0; i < conn_amount; i++) {
+			out_fd(fd_A[i]);
+			printf("read 1\n");
+			read_client_data(fd_A[i]);
+			printf("read 2\n");
+
+		}
+		if (FD_ISSET(sockfd, &readfds)) {
+			printf("Server: %d\n", sockfd);
+			printf("Server socket waitting accept client......\n");
+			fd = accept(sockfd, NULL, NULL);
+			if (conn_amount < BACKLOG) {
+				fd_A[conn_amount++] = fd;
+				if (fd > max_fd) {
+					max_fd = fd;
+				}
+			}
+		}
+		
 	}
 
 	return 0;
