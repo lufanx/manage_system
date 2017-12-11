@@ -13,9 +13,20 @@ void
 read_client_data(int fd)
 {
 	char buffer[SOCKET_DATA_BUFFER];
+	int size;
 	memset(buffer, 0, SOCKET_DATA_BUFFER);
-	read(fd, buffer, SOCKET_DATA_BUFFER);
-	printf("Client data buffer: %s\n", buffer);
+	while ((size = read(fd, buffer, SOCKET_DATA_BUFFER)) > 0) {
+		printf("Client data buffer: %s\n", buffer);
+	}
+
+	if (size == 0) {
+		printf("Client readly disconnect\n");
+		return;
+	}else if (size < 0) {
+		printf("Server read client data failed\n");
+		return;
+	}
+	//printf("Client data buffer: %s\n", buffer);
 }
 
 void

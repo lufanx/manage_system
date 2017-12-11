@@ -10,14 +10,25 @@
 #include <arpa/inet.h>
 
 void
-write_buf_sockfd(char *data, int sockfd)
+write_buf_sockfd(int sockfd)
 {
-	char buffer[SOCKET_DATA_BUFFER] = "Hello server";
-	memset(data, 0, sizeof(*data));
+	int size;
+	char buf[SOCKET_DATA_BUFFER];
+	memset(buf, 0, SOCKET_DATA_BUFFER);
 	
-	snprintf(data, SOCKET_DATA_BUFFER, "%s", buffer);
-	write(sockfd, data, SOCKET_DATA_BUFFER);
-
+	/* if input is "quit" client connect will close */
+	getchar(); /* fgets will read '\n', this will delete '\n' */
+	while (NULL != fgets(buf, SOCKET_DATA_BUFFER, stdin)) {
+		if ((size = write(sockfd, buf, SOCKET_DATA_BUFFER)) < SOCKET_DATA_BUFFER) {
+			fprintf(stderr, "Client write data failed\n");
+			close(sockfd);
+			return;
+		} else if (!strncmp(buf, "quit", 4)) {
+			printf("Client will quit\n");
+			close(sockfd);
+		}
+		printf("size: %d\n", size);
+	}
 }
 
 void
@@ -27,7 +38,6 @@ connect_server()
 	struct sockaddr_in clientaddr;
 	int client_port;
 	char client_ip[IP_BUFFER];
-	char buffer[SOCKET_DATA_BUFFER];
 	
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (sockfd < 0) {
@@ -49,6 +59,6 @@ connect_server()
 		return;
 	
 	}
-	write_buf_sockfd(buffer, sockfd);
+	write_buf_sockfd(sockfd);
 	close(sockfd);
 }
