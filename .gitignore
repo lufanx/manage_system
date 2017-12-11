@@ -16,6 +16,7 @@
 *.pch
 
 # Libraries
+*.o
 *.lib
 *.a
 *.la
