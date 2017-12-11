@@ -26,6 +26,7 @@ write_buf_sockfd(int sockfd)
 		} else if (!strncmp(buf, "quit", 4)) {
 			printf("Client will quit\n");
 			close(sockfd);
+			break;
 		}
 		printf("size: %d\n", size);
 	}
