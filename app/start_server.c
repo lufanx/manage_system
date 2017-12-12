@@ -44,6 +44,8 @@ main(int argc, char *argv[])
 	int conn_amount = 0;
 	int fd_A[BACKLOG] = {0};
 	int i;
+	int ret;
+	char buf[1024];
 
 	/* argv[1] is socket port */
 	if (argc < 2) {
@@ -91,6 +93,7 @@ main(int argc, char *argv[])
 		timeout.tv_usec = 5000;
 		for (i = 0; i < BACKLOG; i++) {
 			if (fd_A[i] != 0) {
+				printf("sock: %d\n", fd_A[i]);
 				FD_SET(fd_A[i], &readfds);
 			}
 		}
@@ -102,12 +105,24 @@ main(int argc, char *argv[])
 			printf("Select check timeout...\n");
 			continue;
 		}
-		printf("=================\n");
 		for (i = 0; i < conn_amount; i++) {
-			out_fd(fd_A[i]);
-			printf("read 1\n");
-			read_client_data(fd_A[i]);
-			printf("read 2\n");
+			if (FD_ISSET(fd_A[i], &readfds)) {
+				ret = recv(fd_A[i], buf, sizeof(buf), 0);
+				if (ret < 0) {
+					printf("Close client: %d\n", fd_A[i]);
+					close(fd_A[i]);
+					FD_CLR(fd_A[i], &readfds);
+					fd_A[i] = 0;
+					conn_amount--;
+				}
+				if (ret > 0) {
+					printf("fd_A[%d]: buf: %s\n", fd_A[i], buf);
+				}
+			}
+			//out_fd(fd_A[i]);
+			//printf("read 1\n");
+			//read_client_data(fd_A[i]);
+			//printf("read 2\n");
 
 		}
 		if (FD_ISSET(sockfd, &readfds)) {
