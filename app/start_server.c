@@ -111,7 +111,7 @@ main(int argc, char *argv[])
 				//input_connect_client_info(fd_A[i]);
 				ret = recv(fd_A[i], buf, sizeof(buf), 0);
 				//ret = read_client_data(fd_A[i]);
-				if ((ret < 0) || (!strncmp(buf, "quit", 4))) {
+				if ((ret < 0) || (!strncmp(buf, "quit", 4)) || (ret == 0)) {
 					printf("Close client: %d\n", fd_A[i]);
 					close(fd_A[i]);
 					FD_CLR(fd_A[i], &readfds);
