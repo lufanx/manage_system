@@ -1,7 +1,8 @@
-#include "client/list.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "client/list.h"
 
 PNODE pHead = NULL;
 PNODE pTail;

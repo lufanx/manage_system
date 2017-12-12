@@ -1,5 +1,3 @@
-#include "client/socket_client.h"
-#include "common_handle.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,6 +6,12 @@
 #include <netdb.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <signal.h>
+
+#include "client/socket_client.h"
+#include "common_handle.h"
+
+int sockfd;
 
 void
 write_buf_sockfd(int sockfd)
@@ -17,8 +21,9 @@ write_buf_sockfd(int sockfd)
 	memset(buf, 0, SOCKET_DATA_BUFFER);
 	
 	/* if input is "quit" client connect will close */
-	getchar(); /* fgets will read '\n', this will delete '\n' */
+	//getchar(); /* fgets will read '\n', this will delete '\n' */
 	while (NULL != fgets(buf, SOCKET_DATA_BUFFER, stdin)) {
+		printf("buf:%s\n", buf);
 		if ((size = write(sockfd, buf, SOCKET_DATA_BUFFER)) < SOCKET_DATA_BUFFER) {
 			fprintf(stderr, "Client write data failed\n");
 			close(sockfd);
@@ -28,9 +33,25 @@ write_buf_sockfd(int sockfd)
 			close(sockfd);
 			break;
 		}
+		printf("buf:%s\n", buf);
 		printf("size: %d\n", size);
 	}
 }
+
+/*
+void
+sig_client_handle(int signo)
+{
+	char quit_buf[] = "quit";
+	if (signo == SIGINT) {
+		if (write(sockfd, quit_buf, sizeof(quit_buf)) != sizeof(quit_buf)) {
+				fprintf(stderr, "Wtite signal failed\n");
+				return;
+		}
+		close(sockfd);
+	}
+}
+*/
 
 void
 connect_server(int argc, char *argv[])
@@ -60,6 +81,14 @@ connect_server(int argc, char *argv[])
 		return;
 	
 	}
+
+/*
+	if (signal(SIGINT, sig_client_handle) == SIG_ERR) {
+		fprintf(stderr, "Sig_client_handle failed\n");
+		return;
+	}
+*/
+
 	write_buf_sockfd(sockfd);
 	close(sockfd);
 }

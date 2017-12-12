@@ -1,10 +1,11 @@
-#include "client/info_struct.h"
-#include "client/list.h"
-#include "client/socket_client.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+
+#include "client/info_struct.h"
+#include "client/list.h"
+#include "client/socket_client.h"
 
 /*
  * default teacher_age teacher_sex
@@ -116,8 +117,10 @@ main(int argc, char *argv[])
 	//	fprintf(stderr, "argc: %s school_name teacher_name student_name\n", argv[0]);
 	//	exit(1);
 	//}
+	
 	data_init(&sch_info);
 	connect_server(argc, argv);
+
 
 	while (1) {
 		int cmd;

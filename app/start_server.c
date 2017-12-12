@@ -1,4 +1,3 @@
-#include "server/handle_server_info.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -11,6 +10,8 @@
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/select.h>
+
+#include "server/handle_server_info.h"
 
 #define BACKLOG	10
 int sockfd;
@@ -89,7 +90,7 @@ main(int argc, char *argv[])
 		printf("conn_amount: %d\n", conn_amount);
 		FD_ZERO(&readfds);
 		FD_SET(sockfd, &readfds);
-		timeout.tv_sec = 20;
+		timeout.tv_sec = 50;
 		timeout.tv_usec = 5000;
 		for (i = 0; i < BACKLOG; i++) {
 			if (fd_A[i] != 0) {
@@ -107,8 +108,10 @@ main(int argc, char *argv[])
 		}
 		for (i = 0; i < conn_amount; i++) {
 			if (FD_ISSET(fd_A[i], &readfds)) {
+				//input_connect_client_info(fd_A[i]);
 				ret = recv(fd_A[i], buf, sizeof(buf), 0);
-				if (ret < 0) {
+				//ret = read_client_data(fd_A[i]);
+				if ((ret < 0) || (!strncmp(buf, "quit", 4))) {
 					printf("Close client: %d\n", fd_A[i]);
 					close(fd_A[i]);
 					FD_CLR(fd_A[i], &readfds);
@@ -116,7 +119,7 @@ main(int argc, char *argv[])
 					conn_amount--;
 				}
 				if (ret > 0) {
-					printf("fd_A[%d]: buf: %s\n", fd_A[i], buf);
+					printf("fd_A[%d]: buf:%s\n", fd_A[i], buf);
 				}
 			}
 			//out_fd(fd_A[i]);
@@ -129,6 +132,7 @@ main(int argc, char *argv[])
 			printf("Server: %d\n", sockfd);
 			printf("Server socket waitting accept client......\n");
 			fd = accept(sockfd, NULL, NULL);
+			input_connect_client_info(fd);
 			if (conn_amount < BACKLOG) {
 				fd_A[conn_amount++] = fd;
 				if (fd > max_fd) {

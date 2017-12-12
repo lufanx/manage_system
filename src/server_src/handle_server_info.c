@@ -1,5 +1,3 @@
-#include "server/handle_server_info.h"
-#include "common_handle.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,6 +6,30 @@
 #include <netdb.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+
+#include "server/handle_server_info.h"
+#include "common_handle.h"
+
+void
+input_connect_client_info(int fd)
+{
+	struct sockaddr_in fdaddr;
+	socklen_t len = sizeof(fdaddr);
+	char fd_ip[IP_BUFFER];
+	int fd_port;
+	
+	memset(&fdaddr, 0, sizeof(fdaddr));
+	if (getpeername(fd, (struct sockaddr *)&fdaddr, &len) < 0) {
+		fprintf(stderr, "Getpeername failed\n");
+		return;
+	}
+	//fd_port = ntohs(fdaddr.sin_port);
+	fd_port = GET_PORT(fdaddr.sin_port);
+	//inet_ntop(AF_INET, &fdaddr.sin_addr.s_addr, fd_ip, IP_BUFFER);
+	GET_IP(AF_INET, &fdaddr.sin_addr.s_addr, fd_ip, IP_BUFFER);
+	
+	printf("Current connected client info: IP[%s] PORT[%d] ...\n", fd_ip, fd_port);
+}
 
 int
 read_client_data(int fd)
@@ -49,8 +71,9 @@ out_server_info(int sockfd)
 		fprintf(stderr, "getsockname failed\n");
 		return;
 	}
-	server_port = ntohs(addr.sin_port);
-	inet_ntop(AF_INET, &addr.sin_addr.s_addr, server_ip, IP_BUFFER);
+	server_port = GET_PORT(addr.sin_port);
+	//inet_ntop(AF_INET, &addr.sin_addr.s_addr, server_ip, IP_BUFFER);
+	GET_IP(AF_INET, &addr.sin_addr.s_addr, server_ip, IP_BUFFER);
 
 	printf("Server info: IP[%s] PORT[%d] ...\n", server_ip, server_port);
 
