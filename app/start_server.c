@@ -75,11 +75,13 @@ main(int argc, char *argv[])
 	if (bind(sockfd, (struct sockaddr *)&serveraddr, 
 				sizeof(serveraddr)) < 0) {
 		fprintf(stderr, "Bind socket port failed\n");
+		close(sockfd);
 		exit(1);
 	}
 
 	if (listen(sockfd, 10) < 0) {
 		fprintf(stderr, "Listen failed\n");
+		close(sockfd);
 		exit(1);
 	}
 	
@@ -90,7 +92,7 @@ main(int argc, char *argv[])
 		printf("conn_amount: %d\n", conn_amount);
 		FD_ZERO(&readfds);
 		FD_SET(sockfd, &readfds);
-		timeout.tv_sec = 50;
+		timeout.tv_sec = 1000;
 		timeout.tv_usec = 5000;
 		for (i = 0; i < BACKLOG; i++) {
 			if (fd_A[i] != 0) {
@@ -101,7 +103,7 @@ main(int argc, char *argv[])
 		if ((fd_num = select(max_fd+1, &readfds, NULL, NULL, &timeout)) < 0) {
 			fprintf(stderr, "Select called failed\n");
 			break;
-		} 
+		}
 		if (fd_num == 0) {
 			printf("Select check timeout...\n");
 			continue;
