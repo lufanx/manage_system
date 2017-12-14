@@ -36,7 +36,7 @@ manage_system_log(enum manage_system_log_level level, const char *file, const in
 	va_start(ap, format);
 	vsnprintf(buf, sizeof(buf), format, ap);
 
-	openlog("MANAGE_SYSTEM", LOG_PERROR, LOG_LOCAL7);
+	openlog("MANAGE_SYSTEM", LOG_PERROR|LOG_PID, 0);		/* Output termainal and printf pid, 0 default LOG_USER  */
 
 	/* If level is error and warn will output  */
 	if (level <= printf_manage_system_log) {
