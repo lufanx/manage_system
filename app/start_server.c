@@ -12,6 +12,7 @@
 #include <sys/select.h>
 
 #include "server/handle_server_info.h"
+#include "log.h"
 
 #define BACKLOG	10
 int sockfd;
@@ -50,7 +51,7 @@ main(int argc, char *argv[])
 
 	/* argv[1] is socket port */
 	if (argc < 2) {
-		fprintf(stderr, "usage: %s#port\n", argv[0]);
+		LOG_ERROR("usage: %s#port\n", argv[0]);
 		exit(1);
 	}
 	
