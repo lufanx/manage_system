@@ -3,5 +3,4 @@
 
 void connect_server(int argc, char *argv[]);
 
-
-#endif /* __SOCKET_CLIENT_H__ */
+#endif /* __SOCKET_CLIENT_H__  */

@@ -12,34 +12,22 @@ typedef struct Node {
 	struct Node *pNext;
 } NODE, *PNODE;
 
-/*
- *display about school info.
- */
+/* Display about school info.  */
 void display_info(struct school *sch_info);
 
-/*
- *add about school info.
- */
+/* Ddd about school info.  */
 PNODE list_add_info(struct school *info, int register_total);
 
-/*
- *delete about school info.
- */
+/* Delete about school info.  */
 void list_delete_info();
 
-/*
- *update about school info.
- */
+/* Update about school info.  */
 void list_update_info();
 
-/*
- *trave about school info.
- */
+/* Trave about school info.  */
 void list_trave_info(PNODE);
 
-/*
- *clear about school info and exit application.
- */
+/* Clear about school info and exit application.  */
 void clear_up();
 
 #endif /* __LIST_H__ */

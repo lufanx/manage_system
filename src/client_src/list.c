@@ -6,7 +6,7 @@
 
 PNODE pHead = NULL;
 PNODE pTail;
-/* point until point creat new node */
+/* Point until point creat new node  */
 PNODE point;
 
 void

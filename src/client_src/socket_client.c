@@ -7,9 +7,11 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <signal.h>
+#include <assert.h>
 
 #include "client/socket_client.h"
 #include "common_handle.h"
+#include "log.h"
 
 int sockfd;
 
@@ -60,6 +62,11 @@ connect_server(int argc, char *argv[])
 	struct sockaddr_in clientaddr;
 	//int client_port;
 	//char client_ip[IP_BUFFER];
+	//
+	if (argc != 3) {
+		LOG_ERROR("Please input args or argc error\n");
+		exit(1);
+	}
 	
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (sockfd < 0) {

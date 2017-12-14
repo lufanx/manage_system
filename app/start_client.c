@@ -2,10 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <signal.h>
 
 #include "client/info_struct.h"
 #include "client/list.h"
 #include "client/socket_client.h"
+#include "log.h"
 
 /*
  * default teacher_age teacher_sex
@@ -106,6 +108,14 @@ parse_args(int argc, char **argv, struct school *get_school_info){
 }
 */
 
+void
+sig_handle(int signo)
+{
+	if (signo == SIGINT) {
+		printf("Client SIGINT handle\n");
+	}
+}
+
 int
 main(int argc, char *argv[])
 {
@@ -118,9 +128,12 @@ main(int argc, char *argv[])
 	//	exit(1);
 	//}
 	
+	if (signal(SIGINT, sig_handle) == SIG_ERR) {
+		LOG_ERROR("Client SIGINT handle error\n");
+	}	
+
 	data_init(&sch_info);
 	connect_server(argc, argv);
-
 
 	while (1) {
 		int cmd;
