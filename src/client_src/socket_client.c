@@ -49,14 +49,14 @@ sig_client_handle(int signo)
 static void
 read_server_info()
 {
-	struct server_data data;
+	struct socket_info server_socket_info;
 
-	memset(&data, 0, sizeof(data));
+	memset(&server_socket_info, 0, sizeof(server_socket_info));
 
-	if (read(sockfd, &data, sizeof(data)) < 0) {
+	if (read(sockfd, &server_socket_info, sizeof(server_socket_info)) < 0) {
 		LOG_ERROR("Client read data error\n");
 	} else {
-		printf("Server IP[%s] PORT[%d] PID[%d]\n", data.ip, data.port, data.pid);
+		printf("Server IP[%s] PORT[%d] PID[%d]\n", server_socket_info.ip, server_socket_info.port, server_socket_info.pid);
 	}
 }
 
@@ -104,6 +104,6 @@ connect_server(int argc, char *argv[])
 		}
 	*/
 
-	write_buf_sockfd(sockfd);
+	//write_buf_sockfd(sockfd);
 	close(sockfd);
 }

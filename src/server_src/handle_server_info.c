@@ -5,20 +5,15 @@
 #include "log.h"
 
 void
-send_server_info(int fd, char *argv[])
+send_server_info(int fd, struct socket_info *server_socket_info)
 {
-	if (argv == NULL) {
+	if (server_socket_info == NULL) {
 		LOG_ERROR("Please input argxs\n");
 	}
-	struct server_data data;
 
-	memset(&data, 0, sizeof(data));
+	server_socket_info->pid = getpid();
 
-	snprintf(data.ip, sizeof(data.ip), "0.0.0.0");
-	data.port = atoi(argv[1]);
-	data.pid = getpid();
-
-	if (write(fd, &data, sizeof(data)) < sizeof(data)) {
+	if (write(fd, server_socket_info, sizeof(struct socket_info)) < sizeof(struct socket_info)) {
 		LOG_ERROR("Write data error\n");
 	}
 }
@@ -71,8 +66,12 @@ read_client_data(int fd)
 }
 
 void
-out_server_info(int sockfd)
+out_server_info(struct socket_info *server_socket_info)
 {
+	if (server_socket_info == NULL) {
+		LOG_ERROR("Server socket info is empty\n");
+	}
+/*
 	struct sockaddr_in addr;
 	socklen_t len = sizeof(addr);
 	char server_ip[IP_BUFFER];
@@ -87,7 +86,7 @@ out_server_info(int sockfd)
 	server_port = GET_PORT(addr.sin_port);
 	//inet_ntop(AF_INET, &addr.sin_addr.s_addr, server_ip, IP_BUFFER);
 	GET_IP(AF_INET, &addr.sin_addr.s_addr, server_ip, IP_BUFFER);
-
-	printf("Server info: IP[%s] PORT[%d] ...\n", server_ip, server_port);
+*/
+	printf("Server info: IP[%s] PORT[%d] ...\n", server_socket_info->ip, server_socket_info->port);
 
 }

@@ -8,7 +8,8 @@
 #define VA_ARGS_BUF	1024
 
 /* About server process info  */
-struct server_data {
+struct socket_info {
+	int sockfd;
 	int pid;
 	int port;
 	char ip[IP_BUFFER];

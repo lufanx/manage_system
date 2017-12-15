@@ -143,13 +143,13 @@ list_trave_info(PNODE pHead)
 	PNODE p;
 	p = pHead;
 	while (p->pNext != NULL) {
-		printf("school name: %10s\n", p->pNext->info.school_name);
-		printf("teacher name: %10s\n", p->pNext->info.tea->teacher_name);
-		printf("teacher age: %10d\n", p->pNext->info.tea->age);
-		printf("teacher sex: %10c\n", p->pNext->info.tea->sex);
-		printf("student name: %10s\n", p->pNext->info.stu->student_name);
-		printf("student age: %10d\n", p->pNext->info.stu->age);
-		printf("student sex: %10c\n", p->pNext->info.stu->sex);
+		printf("\tschool name:  %10s\n", p->pNext->info.school_name);
+		printf("\tteacher name: %10s\n", p->pNext->info.tea->teacher_name);
+		printf("\tteacher age:  %10d\n", p->pNext->info.tea->age);
+		printf("\tteacher sex:  %10c\n", p->pNext->info.tea->sex);
+		printf("\tstudent name: %10s\n", p->pNext->info.stu->student_name);
+		printf("\tstudent age:  %10d\n", p->pNext->info.stu->age);
+		printf("\tstudent sex:  %10c\n", p->pNext->info.stu->sex);
 		p = p->pNext;
 
 	}

@@ -2,6 +2,7 @@
 
 #include "server/handle_server_info.h"
 #include "log.h"
+#include "common_handle.h"
 
 #define BACKLOG	10
 int sockfd;
@@ -27,6 +28,7 @@ int
 main(int argc, char *argv[])
 {
 	struct sockaddr_in serveraddr;
+	struct socket_info server_socket_info;
 	int fd;
 	int max_fd;
 	struct timeval timeout;
@@ -52,8 +54,9 @@ main(int argc, char *argv[])
 		exit(1);
 	}
 
-	sockfd = socket(AF_INET, SOCK_STREAM, 0);
-	if (sockfd < 0) {
+	memset(&server_socket_info, 0, sizeof(server_socket_info));
+	server_socket_info.sockfd = socket(AF_INET, SOCK_STREAM, 0);
+	if (server_socket_info.sockfd < 0) {
 		fprintf(stderr, "Create server sockfd failed\n");
 		exit(1);
 	}
@@ -62,26 +65,30 @@ main(int argc, char *argv[])
 	serveraddr.sin_port = htons(atoi(argv[1]));
 	serveraddr.sin_addr.s_addr = INADDR_ANY;
 
-	if (bind(sockfd, (struct sockaddr *)&serveraddr,
+	server_socket_info.port = atoi(argv[1]);
+	GET_IP(AF_INET, &serveraddr.sin_addr.s_addr, server_socket_info.ip, IP_BUFFER);
+	//snprintf(server_socket_info.ip, sizeof(server_socket_info.ip), serveraddr.sin_addr.s_addr);
+
+	if (bind(server_socket_info.sockfd, (struct sockaddr *)&serveraddr,
 		 sizeof(serveraddr)) < 0) {
 		fprintf(stderr, "Bind socket port failed\n");
-		close(sockfd);
+		close(server_socket_info.sockfd);
 		exit(1);
 	}
 
-	if (listen(sockfd, 10) < 0) {
+	if (listen(server_socket_info.sockfd, 10) < 0) {
 		fprintf(stderr, "Listen failed\n");
-		close(sockfd);
+		close(server_socket_info.sockfd);
 		exit(1);
 	}
 
 	FD_ZERO(&readfds);
-	max_fd = sockfd;
-	out_server_info(sockfd);
+	max_fd = server_socket_info.sockfd;
+	out_server_info(&server_socket_info);
 	while (1) {
 		printf("conn_amount: %d\n", conn_amount);
 		FD_ZERO(&readfds);
-		FD_SET(sockfd, &readfds);
+		FD_SET(server_socket_info.sockfd, &readfds);
 		timeout.tv_sec = 1000;
 		timeout.tv_usec = 5000;
 		for (i = 0; i < BACKLOG; i++) {
@@ -120,11 +127,11 @@ main(int argc, char *argv[])
 			//printf("read 2\n");
 
 		}
-		if (FD_ISSET(sockfd, &readfds)) {
-			printf("Server: %d\n", sockfd);
+		if (FD_ISSET(server_socket_info.sockfd, &readfds)) {
+			printf("Server: %d\n", server_socket_info.sockfd);
 			printf("Server socket waitting accept client......\n");
-			fd = accept(sockfd, NULL, NULL);
-			send_server_info(fd, argv);
+			fd = accept(server_socket_info.sockfd, NULL, NULL);
+			send_server_info(fd, &server_socket_info);
 			input_connect_client_info(fd);
 			if (conn_amount < BACKLOG) {
 				fd_A[conn_amount++] = fd;
