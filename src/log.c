@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdarg.h>
-#include <syslog.h>
+#include "stdinc.h"
 
 #include "log.h"
 #include "common_handle.h"

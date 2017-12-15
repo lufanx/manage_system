@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <signal.h>
+#include "stdinc.h"
 
 #include "client/info_struct.h"
 #include "client/list.h"
