@@ -5,5 +5,6 @@
 void out_server_info(int sockfd);
 int read_client_data(int fd);
 void input_connect_client_info(int fd);
+void send_server_info(int fd, char *argv[]);
 
 #endif /* __SERVER_HANDLE_H__  */

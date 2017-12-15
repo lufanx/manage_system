@@ -9,6 +9,26 @@
 
 #include "server/handle_server_info.h"
 #include "common_handle.h"
+#include "log.h"
+
+void
+send_server_info(int fd, char *argv[])
+{
+	if (argv == NULL) {
+		LOG_ERROR("Please input argxs\n");
+	}
+	struct server_data data;
+
+	memset(&data, 0, sizeof(data));
+
+	snprintf(data.ip, sizeof(data.ip), "0.0.0.0");
+	data.port = atoi(argv[1]);
+	data.pid = getpid();
+
+	if (write(fd, &data, sizeof(data)) < sizeof(data)) {
+		LOG_ERROR("Write data error\n");
+	}
+}
 
 void
 input_connect_client_info(int fd)

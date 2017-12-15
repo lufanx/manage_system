@@ -135,6 +135,7 @@ main(int argc, char *argv[])
 			printf("Server: %d\n", sockfd);
 			printf("Server socket waitting accept client......\n");
 			fd = accept(sockfd, NULL, NULL);
+			send_server_info(fd, argv);
 			input_connect_client_info(fd);
 			if (conn_amount < BACKLOG) {
 				fd_A[conn_amount++] = fd;

@@ -7,4 +7,11 @@
 #define IP_BUFFER	16
 #define VA_ARGS_BUF	1024
 
+/* About server process info  */
+struct server_data{
+	int pid;
+	int port;
+	char ip[IP_BUFFER];
+};
+
 #endif

@@ -15,7 +15,7 @@
 
 int sockfd;
 
-void
+static void
 write_buf_sockfd(int sockfd)
 {
 	int size;
@@ -55,10 +55,24 @@ sig_client_handle(int signo)
 }
 */
 
+static void
+read_server_info()
+{
+	struct server_data data;
+
+	memset(&data, 0, sizeof(data));
+
+	if (read(sockfd, &data, sizeof(data)) < 0) {
+		LOG_ERROR("Client read data error\n");
+	} else {
+		printf("Server IP[%s] PORT[%d] PID[%d]\n", data.ip, data.port, data.pid);
+	}
+}
+
 void
 connect_server(int argc, char *argv[])
 {
-	int sockfd;
+	//int sockfd;
 	struct sockaddr_in clientaddr;
 	//int client_port;
 	//char client_ip[IP_BUFFER];
@@ -87,6 +101,9 @@ connect_server(int argc, char *argv[])
 		fprintf(stderr, "Client connect failed\n");
 		return;
 	
+	} else {
+		printf("Connected to %s:%d...\n", argv[1], atoi(argv[2]));
+		read_server_info();
 	}
 
 /*

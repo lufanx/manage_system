@@ -113,6 +113,7 @@ sig_handle(int signo)
 {
 	if (signo == SIGINT) {
 		printf("Client SIGINT handle\n");
+		kill(getpid(), SIGKILL);
 	}
 }
 
