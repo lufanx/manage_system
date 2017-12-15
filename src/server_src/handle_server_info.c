@@ -30,7 +30,7 @@ input_connect_client_info(int fd)
 	socklen_t len = sizeof(fdaddr);
 	char fd_ip[IP_BUFFER];
 	int fd_port;
-	
+
 	memset(&fdaddr, 0, sizeof(fdaddr));
 	if (getpeername(fd, (struct sockaddr *)&fdaddr, &len) < 0) {
 		fprintf(stderr, "Getpeername failed\n");
@@ -40,7 +40,7 @@ input_connect_client_info(int fd)
 	fd_port = GET_PORT(fdaddr.sin_port);
 	//inet_ntop(AF_INET, &fdaddr.sin_addr.s_addr, fd_ip, IP_BUFFER);
 	GET_IP(AF_INET, &fdaddr.sin_addr.s_addr, fd_ip, IP_BUFFER);
-	
+
 	printf("Current connected client info: IP[%s] PORT[%d] ...\n", fd_ip, fd_port);
 }
 
@@ -62,7 +62,7 @@ read_client_data(int fd)
 	if (size == 0) {
 		printf("Client readly disconnect\n");
 		return 1;
-	}else if (size < 0) {
+	} else if (size < 0) {
 		printf("Server read client data failed\n");
 		return -1;
 	}

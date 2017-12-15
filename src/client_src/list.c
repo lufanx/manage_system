@@ -29,12 +29,12 @@ display_info(struct school *sch_info)
 PNODE
 list_add_info(struct school *info, int register_flag)
 {
-/*
-	struct teacher tea = {0};
-	struct student stu = {0};
-	char teacher_sex = ' ';
-	char student_sex = ' ';
-*/
+	/*
+		struct teacher tea = {0};
+		struct student stu = {0};
+		char teacher_sex = ' ';
+		char student_sex = ' ';
+	*/
 	//PNODE pHead;
 	PNODE pTail;
 

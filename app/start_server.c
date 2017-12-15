@@ -43,10 +43,10 @@ main(int argc, char *argv[])
 		LOG_ERROR("usage: %s#port\n", argv[0]);
 		exit(1);
 	}
-	
+
 	/* if use Ctrl + c to close server
- 	 * will close sockfd 
- 	 * */
+	 * will close sockfd
+	 * */
 	if (signal(SIGINT, sig_handle) == SIG_ERR) {
 		fprintf(stderr, "SIGINT handle error\n");
 		exit(1);
@@ -62,8 +62,8 @@ main(int argc, char *argv[])
 	serveraddr.sin_port = htons(atoi(argv[1]));
 	serveraddr.sin_addr.s_addr = INADDR_ANY;
 
-	if (bind(sockfd, (struct sockaddr *)&serveraddr, 
-				sizeof(serveraddr)) < 0) {
+	if (bind(sockfd, (struct sockaddr *)&serveraddr,
+		 sizeof(serveraddr)) < 0) {
 		fprintf(stderr, "Bind socket port failed\n");
 		close(sockfd);
 		exit(1);
@@ -74,7 +74,7 @@ main(int argc, char *argv[])
 		close(sockfd);
 		exit(1);
 	}
-	
+
 	FD_ZERO(&readfds);
 	max_fd = sockfd;
 	out_server_info(sockfd);
@@ -90,7 +90,7 @@ main(int argc, char *argv[])
 				FD_SET(fd_A[i], &readfds);
 			}
 		}
-		if ((fd_num = select(max_fd+1, &readfds, NULL, NULL, &timeout)) < 0) {
+		if ((fd_num = select(max_fd + 1, &readfds, NULL, NULL, &timeout)) < 0) {
 			fprintf(stderr, "Select called failed\n");
 			break;
 		}
@@ -133,7 +133,7 @@ main(int argc, char *argv[])
 				}
 			}
 		}
-		
+
 	}
 
 	return 0;

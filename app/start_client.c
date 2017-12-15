@@ -124,10 +124,10 @@ main(int argc, char *argv[])
 	//	fprintf(stderr, "argc: %s school_name teacher_name student_name\n", argv[0]);
 	//	exit(1);
 	//}
-	
+
 	if (signal(SIGINT, sig_handle) == SIG_ERR) {
 		LOG_ERROR("Client SIGINT handle error\n");
-	}	
+	}
 
 	data_init(&sch_info);
 	connect_server(argc, argv);

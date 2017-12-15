@@ -12,7 +12,7 @@ write_buf_sockfd(int sockfd)
 	int size;
 	char buf[SOCKET_DATA_BUFFER];
 	memset(buf, 0, SOCKET_DATA_BUFFER);
-	
+
 	/* if input is "quit" client connect will close */
 	//getchar(); /* fgets will read '\n', this will delete '\n' */
 	while (NULL != fgets(buf, SOCKET_DATA_BUFFER, stdin)) {
@@ -72,7 +72,7 @@ connect_server(int argc, char *argv[])
 		LOG_ERROR("Please input args or argc error\n");
 		exit(1);
 	}
-	
+
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (sockfd < 0) {
 		fprintf(stderr, "Create client sockfd failed\n");
@@ -87,22 +87,22 @@ connect_server(int argc, char *argv[])
 	//scanf("%d", &client_port);
 	clientaddr.sin_port = htons(atoi(argv[2]));
 	inet_pton(AF_INET, argv[1], &clientaddr.sin_addr.s_addr);
-	
+
 	if (connect(sockfd, (struct sockaddr *)&clientaddr, sizeof(clientaddr)) < 0) {
 		fprintf(stderr, "Client connect failed\n");
 		return;
-	
+
 	} else {
 		printf("Connected to %s:%d...\n", argv[1], atoi(argv[2]));
 		read_server_info();
 	}
 
-/*
-	if (signal(SIGINT, sig_client_handle) == SIG_ERR) {
-		fprintf(stderr, "Sig_client_handle failed\n");
-		return;
-	}
-*/
+	/*
+		if (signal(SIGINT, sig_client_handle) == SIG_ERR) {
+			fprintf(stderr, "Sig_client_handle failed\n");
+			return;
+		}
+	*/
 
 	write_buf_sockfd(sockfd);
 	close(sockfd);
