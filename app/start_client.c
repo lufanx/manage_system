@@ -120,17 +120,15 @@ main(int argc, char *argv[])
 	struct school sch_info;
 	PNODE pHead = NULL;
 	int		register_flag = 1;
-	//if(argc != 4){
-	//	fprintf(stderr, "argc: %s school_name teacher_name student_name\n", argv[0]);
-	//	exit(1);
-	//}
+	int sockfd;
+	int select;	/* About handle list select  */
 
 	if (signal(SIGINT, sig_handle) == SIG_ERR) {
-		LOG_ERROR("Client SIGINT handle error\n");
+		LOG_ERROR_INFO("Client SIGINT handle error\n");
 	}
 
 	data_init(&sch_info);
-	connect_server(argc, argv);
+	sockfd = connect_server(argc, argv);
 
 	while (1) {
 		int cmd;
@@ -152,12 +150,15 @@ main(int argc, char *argv[])
 			//parse_args(argc, argv, &sch_info);
 			pHead = list_add_info(&sch_info, register_flag);
 			register_flag = 0;
+			select = 2;
 			break;
 		case 3:
 			list_delete_info();
+			select = 3;
 			break;
 		case 4:
 			list_update_info();
+			select = 4;
 			break;
 		case 5:
 			if (!pHead) {
@@ -165,6 +166,7 @@ main(int argc, char *argv[])
 				break;
 			}
 			list_trave_info(pHead);
+			select = 6;
 			break;
 		case 6:
 			//clear_up();
@@ -174,6 +176,7 @@ main(int argc, char *argv[])
 			fprintf(stderr, "%d input error!\n", cmd);
 			break;
 		}
+		send_data_server(pHead, sockfd, select);
 
 		if (exit_flag) {
 			break;
@@ -198,6 +201,7 @@ main(int argc, char *argv[])
 
 	free(sch_info.tea);
 	free(sch_info.stu);
+	close(sockfd);
 
 	return 0;
 }

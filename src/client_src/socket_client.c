@@ -1,10 +1,27 @@
 #include "stdinc.h"
 
 #include "client/socket_client.h"
+#include "client/list.h"
+#include "client/send_data_server.h"
 #include "common_handle.h"
 #include "log.h"
 
 int sockfd;
+
+void
+send_data_server(PNODE Phead, int sockfd, int select)
+{
+	if (Phead == NULL) {
+		LOG_NOTICE_INFO("Phead is empty\n");
+		return;
+	}
+
+	if (Phead->pNext == NULL) {
+		LOG_NOTICE_INFO("List is empty\n");
+		return;
+	}
+	send_list_server(Phead, sockfd, select);
+}
 
 static void
 write_buf_sockfd(int sockfd)
@@ -14,7 +31,6 @@ write_buf_sockfd(int sockfd)
 	memset(buf, 0, SOCKET_DATA_BUFFER);
 
 	/* if input is "quit" client connect will close */
-	//getchar(); /* fgets will read '\n', this will delete '\n' */
 	while (NULL != fgets(buf, SOCKET_DATA_BUFFER, stdin)) {
 		printf("buf:%s\n", buf);
 		if ((size = write(sockfd, buf, SOCKET_DATA_BUFFER)) < SOCKET_DATA_BUFFER) {
@@ -54,13 +70,14 @@ read_server_info()
 	memset(&server_socket_info, 0, sizeof(server_socket_info));
 
 	if (read(sockfd, &server_socket_info, sizeof(server_socket_info)) < 0) {
-		LOG_ERROR("Client read data error\n");
+		LOG_ERROR_INFO("Client read data error\n");
 	} else {
-		printf("Server IP[%s] PORT[%d] PID[%d]\n", server_socket_info.ip, server_socket_info.port, server_socket_info.pid);
+		printf("Server IP[%s] PORT[%d] PID[%d]\n", server_socket_info.ip, server_socket_info.port,
+		       server_socket_info.pid);
 	}
 }
 
-void
+int
 connect_server(int argc, char *argv[])
 {
 	//int sockfd;
@@ -69,14 +86,14 @@ connect_server(int argc, char *argv[])
 	//char client_ip[IP_BUFFER];
 	//
 	if (argc != 3) {
-		LOG_ERROR("Please input args or argc error\n");
+		LOG_ERROR_INFO("Please input args or argc error\n");
 		exit(1);
 	}
 
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (sockfd < 0) {
 		fprintf(stderr, "Create client sockfd failed\n");
-		return;
+		return -1;
 	}
 	memset(&clientaddr, 0, sizeof(clientaddr));
 	//memset(client_ip, 0, IP_BUFFER);
@@ -90,7 +107,7 @@ connect_server(int argc, char *argv[])
 
 	if (connect(sockfd, (struct sockaddr *)&clientaddr, sizeof(clientaddr)) < 0) {
 		fprintf(stderr, "Client connect failed\n");
-		return;
+		return -1;
 
 	} else {
 		printf("Connected to %s:%d...\n", argv[1], atoi(argv[2]));
@@ -105,5 +122,6 @@ connect_server(int argc, char *argv[])
 	*/
 
 	//write_buf_sockfd(sockfd);
-	close(sockfd);
+	//close(sockfd);
+	return sockfd;
 }

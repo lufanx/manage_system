@@ -8,8 +8,10 @@ enum manage_system_log_level {
 };
 
 /* Define manage_system log handle function  */
-#define LOG_ERROR(...) \
+#define LOG_ERROR_INFO(...) \
 		manage_system_log(MANAGE_SYSTEM_LOG_ERROR, __FILE__, __LINE__, __func__, __VA_ARGS__)
+#define LOG_NOTICE_INFO(...) \
+		manage_system_log(MANAGE_SYSTEM_LOG_NOTICE, __FILE__, __LINE__, __func__, __VA_ARGS__)
 
 void manage_system_log(enum manage_system_log_level, const char *file,
 		       const int line, const char *func, const char *format, ...);

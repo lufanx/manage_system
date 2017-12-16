@@ -8,13 +8,13 @@ void
 send_server_info(int fd, struct socket_info *server_socket_info)
 {
 	if (server_socket_info == NULL) {
-		LOG_ERROR("Please input argxs\n");
+		LOG_ERROR_INFO("Please input argxs\n");
 	}
 
 	server_socket_info->pid = getpid();
 
 	if (write(fd, server_socket_info, sizeof(struct socket_info)) < sizeof(struct socket_info)) {
-		LOG_ERROR("Write data error\n");
+		LOG_ERROR_INFO("Write data error\n");
 	}
 }
 
@@ -69,24 +69,24 @@ void
 out_server_info(struct socket_info *server_socket_info)
 {
 	if (server_socket_info == NULL) {
-		LOG_ERROR("Server socket info is empty\n");
+		LOG_ERROR_INFO("Server socket info is empty\n");
 	}
-/*
-	struct sockaddr_in addr;
-	socklen_t len = sizeof(addr);
-	char server_ip[IP_BUFFER];
-	int server_port;
+	/*
+		struct sockaddr_in addr;
+		socklen_t len = sizeof(addr);
+		char server_ip[IP_BUFFER];
+		int server_port;
 
-	memset(server_ip, 0, IP_BUFFER);
+		memset(server_ip, 0, IP_BUFFER);
 
-	if (getsockname(sockfd, (struct sockaddr *)&addr, &len) < 0) {
-		fprintf(stderr, "getsockname failed\n");
-		return;
-	}
-	server_port = GET_PORT(addr.sin_port);
-	//inet_ntop(AF_INET, &addr.sin_addr.s_addr, server_ip, IP_BUFFER);
-	GET_IP(AF_INET, &addr.sin_addr.s_addr, server_ip, IP_BUFFER);
-*/
+		if (getsockname(sockfd, (struct sockaddr *)&addr, &len) < 0) {
+			fprintf(stderr, "getsockname failed\n");
+			return;
+		}
+		server_port = GET_PORT(addr.sin_port);
+		//inet_ntop(AF_INET, &addr.sin_addr.s_addr, server_ip, IP_BUFFER);
+		GET_IP(AF_INET, &addr.sin_addr.s_addr, server_ip, IP_BUFFER);
+	*/
 	printf("Server info: IP[%s] PORT[%d] ...\n", server_socket_info->ip, server_socket_info->port);
 
 }

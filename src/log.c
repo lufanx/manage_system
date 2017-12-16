@@ -25,6 +25,9 @@ manage_system_log(enum manage_system_log_level level, const char *file, const in
 	case MANAGE_SYSTEM_LOG_ERROR:
 		severity = LOG_ERR;
 		break;
+	case MANAGE_SYSTEM_LOG_NOTICE:
+		severity = LOG_NOTICE;
+		break;
 	default:
 		fprintf(stderr, "manage_system_log_level error\n");
 		break;

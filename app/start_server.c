@@ -42,7 +42,7 @@ main(int argc, char *argv[])
 
 	/* argv[1] is socket port */
 	if (argc < 2) {
-		LOG_ERROR("usage: %s#port\n", argv[0]);
+		LOG_ERROR_INFO("usage: %s#port\n", argv[0]);
 		exit(1);
 	}
 
