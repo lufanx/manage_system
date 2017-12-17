@@ -1,6 +1,7 @@
 #include "stdinc.h"
 
 #include "server/handle_server_info.h"
+#include "server/recv_client_data.h"
 #include "log.h"
 #include "common_handle.h"
 
@@ -108,7 +109,8 @@ main(int argc, char *argv[])
 		for (i = 0; i < conn_amount; i++) {
 			if (FD_ISSET(fd_A[i], &readfds)) {
 				//input_connect_client_info(fd_A[i]);
-				ret = recv(fd_A[i], buf, sizeof(buf), 0);
+				//ret = recv(fd_A[i], buf, sizeof(buf), 0);
+				ret = recv_fd(fd_A[i]);
 				//ret = read_client_data(fd_A[i]);
 				if ((ret < 0) || (!strncmp(buf, "quit", 4)) || (ret == 0)) {
 					printf("Close client: %d\n", fd_A[i]);

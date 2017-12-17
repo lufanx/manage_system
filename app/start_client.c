@@ -3,6 +3,7 @@
 #include "client/info_struct.h"
 #include "client/list.h"
 #include "client/socket_client.h"
+#include "common_handle.h"
 #include "log.h"
 
 /*
@@ -118,10 +119,11 @@ main(int argc, char *argv[])
 {
 
 	struct school sch_info;
+	struct list_select client_list_select;
 	PNODE pHead = NULL;
 	int		register_flag = 1;
 	int sockfd;
-	enum list_handle_select select;	/* About handle list select  */
+	enum list_handle_select list_st;	/* About handle list select  */
 
 	if (signal(SIGINT, sig_handle) == SIG_ERR) {
 		LOG_ERROR_INFO("Client SIGINT handle error\n");
@@ -150,15 +152,15 @@ main(int argc, char *argv[])
 			//parse_args(argc, argv, &sch_info);
 			pHead = list_add_info(&sch_info, register_flag);
 			register_flag = 0;
-			select = ADD_LIST_SELECT;
+			list_st = ADD_LIST_SELECT;
 			break;
 		case 3:
 			list_delete_info();
-			select = DELETE_LIST_SELECT;
+			list_st = DELETE_LIST_SELECT;
 			break;
 		case 4:
 			list_update_info();
-			select = UPDATE_LIST_SELECT;
+			list_st = UPDATE_LIST_SELECT;
 			break;
 		case 5:
 			if (!pHead) {
@@ -166,7 +168,7 @@ main(int argc, char *argv[])
 				break;
 			}
 			list_trave_info(pHead);
-			select = TRAVE_LIST_SELECT;
+			list_st = TRAVE_LIST_SELECT;
 			break;
 		case 6:
 			//clear_up();
@@ -176,7 +178,9 @@ main(int argc, char *argv[])
 			fprintf(stderr, "%d input error!\n", cmd);
 			break;
 		}
-		send_data_server(pHead, sockfd, select);
+		client_list_select.pHead = pHead;
+		client_list_select.select = list_st;
+		send_data_server(&client_list_select, sockfd);
 
 		if (exit_flag) {
 			break;

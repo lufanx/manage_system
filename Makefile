@@ -10,7 +10,7 @@ endif
 ALL:app/client app/server
 
 client_objects = bin/start_client.o bin/list.o bin/socket_client.o bin/log.o bin/send_data_server.o
-server_objects = bin/start_server.o bin/handle_server_info.o bin/log.o
+server_objects = bin/start_server.o bin/handle_server_info.o bin/log.o bin/recv_client_data.o
 
 app/client:$(client_objects)
 	$(CC) $(CFLAGS) -o $@ $^
@@ -34,6 +34,9 @@ bin/start_server.o:app/start_server.c src/log.c
 	$(CC) $(CFLAGS) -o $@ -Iinclude -c $<
 
 bin/handle_server_info.o:src/server_src/handle_server_info.c
+	$(CC) $(CFLAGS) -o $@ -Iinclude -c $<
+
+bin/recv_client_data.o:src/server_src/recv_client_data.c
 	$(CC) $(CFLAGS) -o $@ -Iinclude -c $<
 
 bin/log.o:src/log.c
