@@ -23,4 +23,11 @@ struct school {
 	struct student *stu;
 };
 
+enum list_handle_select{
+	ADD_LIST_SELECT = 2,
+	DELETE_LIST_SELECT,
+	UPDATE_LIST_SELECT,
+	TRAVE_LIST_SELECT,
+};
+
 #endif /* __INFO_H__ */

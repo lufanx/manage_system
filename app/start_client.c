@@ -121,7 +121,7 @@ main(int argc, char *argv[])
 	PNODE pHead = NULL;
 	int		register_flag = 1;
 	int sockfd;
-	int select;	/* About handle list select  */
+	enum list_handle_select select;	/* About handle list select  */
 
 	if (signal(SIGINT, sig_handle) == SIG_ERR) {
 		LOG_ERROR_INFO("Client SIGINT handle error\n");
@@ -150,15 +150,15 @@ main(int argc, char *argv[])
 			//parse_args(argc, argv, &sch_info);
 			pHead = list_add_info(&sch_info, register_flag);
 			register_flag = 0;
-			select = 2;
+			select = ADD_LIST_SELECT;
 			break;
 		case 3:
 			list_delete_info();
-			select = 3;
+			select = DELETE_LIST_SELECT;
 			break;
 		case 4:
 			list_update_info();
-			select = 4;
+			select = UPDATE_LIST_SELECT;
 			break;
 		case 5:
 			if (!pHead) {
@@ -166,7 +166,7 @@ main(int argc, char *argv[])
 				break;
 			}
 			list_trave_info(pHead);
-			select = 6;
+			select = TRAVE_LIST_SELECT;
 			break;
 		case 6:
 			//clear_up();
