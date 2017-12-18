@@ -16,10 +16,13 @@ send_data_server(struct list_select *client_list_select, int sockfd)
 		return;
 	}
 
-	if (client_list_select->pHead->pNext == NULL) {
+	printf("============\n");
+	if (client_list_select->pHead == NULL) {
 		LOG_NOTICE_INFO("List is empty\n");
 		return;
 	}
+	//assert(client_list_select->pHead != NULL);
+	printf("=============\n");
 	send_list_server(client_list_select, sockfd);
 }
 

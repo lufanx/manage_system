@@ -125,6 +125,12 @@ main(int argc, char *argv[])
 	int sockfd;
 	enum list_handle_select list_st;	/* About handle list select  */
 
+	client_list_select.pHead = (PNODE)malloc(sizeof(NODE));
+	if (client_list_select.pHead == NULL) {
+		LOG_ERROR_INFO("%s", "Client_list_select.pHead malloc failed\n");
+		exit(1);
+	}
+
 	if (signal(SIGINT, sig_handle) == SIG_ERR) {
 		LOG_ERROR_INFO("Client SIGINT handle error\n");
 	}
@@ -203,6 +209,7 @@ main(int argc, char *argv[])
 		printf("stu_sex: %s\n", sch_info.stu->sex);
 	*/
 
+	free(client_list_select.pHead);
 	free(sch_info.tea);
 	free(sch_info.stu);
 	close(sockfd);
