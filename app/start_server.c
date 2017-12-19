@@ -87,7 +87,6 @@ main(int argc, char *argv[])
 	max_fd = server_socket_info.sockfd;
 	out_server_info(&server_socket_info);
 	while (1) {
-		printf("conn_amount: %d\n", conn_amount);
 		FD_ZERO(&readfds);
 		FD_SET(server_socket_info.sockfd, &readfds);
 		timeout.tv_sec = 1000;

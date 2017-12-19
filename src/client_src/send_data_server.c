@@ -15,7 +15,5 @@ printf("select: %d\n", client_list_select->select);	\
 void
 send_list_server(struct list_select *client_list_select, int sockfd)
 {
-	printf("================\n");
 	SEND_LIST_SELECT(client_list_select, sockfd);
-	printf("$$$$$$$$$$$$$$$$$$\n");
 }
