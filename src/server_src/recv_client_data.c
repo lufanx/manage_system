@@ -47,33 +47,19 @@ static void
 queue_handle(struct list_select *server_list_select, int queue_init_flag)
 {
 	QUEUE qe = NULL;
-	struct list_select *server;
 
-	server = (struct list_select *)malloc(sizeof(struct list_select));
-	if (server == NULL) {
-		LOG_ERROR_INFO("Server malloc failed\n");
-		return;
-	}
-
-	server = server_list_select;
-	printf("server: %d\n", server->select);
-	printf("***********\n");
 	/* QUEUE_INIT only init once  */
 	if (queue_init_flag == 1) {
 		QUEUE_INIT(qe);
 	}
 	/* When select = 2, clinet only add list data  */
-	if (server->select == 2) {
-		printf("*************\n");
+	if (server_list_select->select == 2) {
 		QUEUE_FULL(qe);
-		printf("^^^^^^^^^^^^^\n");
 		if (queue_full_flag == 1) {
 			LOG_NOTICE_INFO("Queue is full\n");
 			return;
 		} else {
-			printf("--------------\n");
 			QUEUE_ADD(qe, server_list_select);
-			printf("=============\n");
 			QUEUE_TRAVERSE(qe);
 		}
 	}
@@ -87,12 +73,20 @@ recv_fd(int sockfd)
 	struct list_select *server_list_select = NULL;
 	int ret;
 
+	server_list_select = (struct list_select *)malloc(sizeof(struct list_select));
+	if (server_list_select == NULL) {
+		LOG_ERROR_INFO("Sever_list_select malloc failed\n");
+		exit(EXIT_FAILURE);
+	}
+
 	queue_init_flag += 1;
 	ret = recv(sockfd, server_list_select, sizeof(struct list_select), 0);
 	if (ret == 0) {
 		return ret;
 	}
 	queue_handle(server_list_select, queue_init_flag);
+
+	free(server_list_select);
 
 	return ret;
 }
