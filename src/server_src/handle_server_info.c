@@ -59,7 +59,6 @@ read_client_data(int fd)
 		return -1;
 	}
 	return 0;
-	//printf("Client data buffer: %s\n", buffer);
 }
 
 void

@@ -20,7 +20,6 @@ send_data_server(struct list_select *client_list_select, int sockfd)
 		LOG_NOTICE_INFO("List is empty\n");
 		return;
 	}
-	//assert(client_list_select->pHead != NULL);
 	send_list_server(client_list_select, sockfd);
 }
 
