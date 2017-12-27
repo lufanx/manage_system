@@ -50,9 +50,6 @@ read_client_data(int fd)
 	if (size > 0) {
 		printf("Client data buffer: %s\n", buffer);
 	}
-	//while ((size = read(fd, buffer, SOCKET_DATA_BUFFER)) > 0) {
-	//	printf("Client data buffer: %s\n", buffer);
-	//}
 
 	if (size == 0) {
 		printf("Client readly disconnect\n");

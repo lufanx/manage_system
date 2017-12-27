@@ -35,7 +35,13 @@
 	} while (0)
 
 #define QUEUE_TRAVERSE(QUEUE_DATA)	do {	\
+		printf("This is traverse queue...\n");	\
+		QUEUE_DATA->pBase->pHead = (PNODE)malloc(sizeof(NODE));	\
+		if (QUEUE_DATA->pBase->pHead == NULL) {	\
+			LOG_ERROR_INFO("Queue_data->pBase->pHead malloc failed\n");	\
+		}	\
 		printf("school name: %s\n", QUEUE_DATA->pBase->pHead->info.school_name);	\
+		free(QUEUE_DATA->pBase->pHead);	\
 	} while (0)
 
 
@@ -84,7 +90,15 @@ recv_fd(int sockfd)
 	if (ret == 0) {
 		return ret;
 	}
+
+	server_list_select->pHead = (PNODE)malloc(sizeof(NODE));
+	if (server_list_select->pHead == NULL) {
+		LOG_ERROR_INFO("Sever_list_select->pHead malloc failed\n");
+	}
+	printf("shcool name: %s\n", server_list_select->pHead->info.school_name);
 	queue_handle(server_list_select, queue_init_flag);
+
+	free(server_list_select->pHead);
 
 	free(server_list_select);
 
