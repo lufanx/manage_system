@@ -15,5 +15,6 @@ printf("select: %d\n", client_list_select->select);	\
 void
 send_list_server(struct list_select *client_list_select, int sockfd)
 {
+	printf("school name = %s\n", client_list_select->pHead->pNext->info.school_name);
 	SEND_LIST_SELECT(client_list_select, sockfd);
 }

@@ -95,9 +95,14 @@ recv_fd(int sockfd)
 	if (server_list_select->pHead == NULL) {
 		LOG_ERROR_INFO("Sever_list_select->pHead malloc failed\n");
 	}
-	printf("shcool name: %s\n", server_list_select->pHead->info.school_name);
+	server_list_select->pHead->pNext = (PNODE)malloc(sizeof(NODE));
+	if (server_list_select->pHead->pNext == NULL) {
+		LOG_ERROR_INFO("Sever_list_select->pHead->pNext malloc failed\n");
+	}
+	printf("shcool name: %s\n", server_list_select->pHead->pNext->info.school_name);
 	queue_handle(server_list_select, queue_init_flag);
 
+	free(server_list_select->pHead->pNext);
 	free(server_list_select->pHead);
 
 	free(server_list_select);
